@@ -1,0 +1,33 @@
+#crear nuevo usuario y luego cambiar datos en archivo connection.php
+CREATE USER 'agenda'@'localhost' IDENTIFIED BY 'agenda_dpyegp';
+GRANT ALL PRIVILEGES ON agenda . * TO 'agenda'@'localhost';
+FLUSH PRIVILEGES;
+
+#tabla usuarios
+create table ag_usuarios (
+id int(11) auto_increment primary key, 
+nombre varchar(30) binary not null, 
+user varchar(15) binary not null, 
+password varchar(74) binary not null, 
+email varchar(90) not null, 
+role int(1) default 1 not null
+)ENGINE=InnoDB DEFAULT CHARSET=utf8; 
+
+#tabla contactos
+create table ag_contactos(
+id int(11) auto_increment primary key,
+nombre varchar(100) not null,
+apellido varchar(100) not null,
+email varchar(64),
+telefono_1 varchar(20) not null,
+telefono_2 varchar(20) not null,
+movil varchar(20),
+nro_oficina varchar(10) not null,
+cargo varchar(100) not null,
+organismo varchar(100) not null
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+#subir csv contactos
+load data local infile '/mnt/sdb1/server/htdocs/proyectos/agenda/core/sqls/contactos.csv' 
+into table ag_contactos fields terminated by ',' enclosed by '"' lines terminated by '\n'
+(nombre,apellido,email,telefono_1,telefono_2,movil,nro_oficina,cargo,organismo);
